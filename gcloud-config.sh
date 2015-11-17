@@ -13,8 +13,6 @@
 # gcloud auth login
 # gcloud container clusters get-credentials ownservices --zone europe-west1-b
 
-
-
 PROJECT="ownservices-1121"
 ZONE="europe-west1-b"
 CLUSTER="ownservices"
@@ -22,3 +20,4 @@ CLUSTER="ownservices"
 gcloud container clusters create $CLUSTER --zone $ZONE
 kubectl create -f sshd-controller.yaml
 kubectl create -f sshd-service.yaml
+gcloud compute disks create --size 10GB tinytinyrssdb-disk --zone europe-west1-b
