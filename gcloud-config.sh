@@ -21,3 +21,4 @@ gcloud container clusters create $CLUSTER --zone $ZONE
 kubectl create -f sshd-controller.yaml
 kubectl create -f sshd-service.yaml
 gcloud compute disks create --size 10GB tinytinyrssdb-disk --zone europe-west1-b
+gcloud compute disks create --size 10GB wallabag-disk --zone europe-west1-b

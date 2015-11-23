@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: wallabag
+  labels:
+    app: wallabag
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: wallabag
+    spec:
+      containers:
+      - name: wallabag
+        image: mathbruyen/wallabag:20151121
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 8000
+          hostPort: 80
+      - name: wallabagdb
+        image: postgres
+        env:
+        - name: POSTGRES_PASSWORD
+          value: password
+        - name: POSTGRES_USER
+          value: wallabag
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        volumeMounts:
+          - name: db-disk
+            mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: db-disk
+        gcePersistentDisk:
+          pdName: wallabagdb-disk
+          fsType: ext4
