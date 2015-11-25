@@ -6,6 +6,7 @@
 
 # Temp testing:
 # docker run --rm -it --name gcloud -v /home/core/aws:/kube mathbruyen/sshd:0.0.2 /bin/sh
+# kubectl exec wallabag-v1-flnjd -c wallabag -i -t -- bash -il
 
 # SSH endpoint:
 # bash
@@ -21,4 +22,4 @@ gcloud container clusters create $CLUSTER --zone $ZONE
 kubectl create -f sshd-controller.yaml
 kubectl create -f sshd-service.yaml
 gcloud compute disks create --size 10GB tinytinyrssdb-disk --zone europe-west1-b
-gcloud compute disks create --size 10GB wallabag-disk --zone europe-west1-b
+gcloud compute disks create --size 10GB wallabagdb-disk --zone europe-west1-b

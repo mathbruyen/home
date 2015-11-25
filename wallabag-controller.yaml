@@ -1,26 +1,32 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: wallabag
+  name: wallabag-v1
   labels:
     app: wallabag
+    version: v1
 spec:
   replicas: 1
   template:
     metadata:
       labels:
         app: wallabag
+        version: v1
     spec:
       containers:
       - name: wallabag
-        image: mathbruyen/wallabag:20151121
+        image: mathbruyen/wallabag:20151124
         resources:
           requests:
             cpu: 100m
             memory: 100Mi
+        command:
+        - php
+        - app/console
+        - server:run
+        - 0.0.0.0:80
         ports:
-        - containerPort: 8000
-          hostPort: 80
+        - containerPort: 80
       - name: wallabagdb
         image: postgres
         env:

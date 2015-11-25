@@ -9,11 +9,11 @@ RUN \
   git clone https://github.com/wallabag/wallabag.git -b v2 /wallabag && \
   apt-get clean
 
-ADD parameters.yml /wallabag/app/config/parameters.dist
+ADD parameters.yml /wallabag/app/config/parameters.yml
 ADD auth.json /root/.composer/auth.json
 
 WORKDIR /wallabag
 
 RUN composer install
 
-CMD php app/console wallabag:install && php app/console server:run
+CMD php app/console server:run
