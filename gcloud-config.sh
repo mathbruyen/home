@@ -7,6 +7,7 @@
 # Temp testing:
 # docker run --rm -it --name gcloud -v /home/core/aws:/kube mathbruyen/sshd:0.0.2 /bin/sh
 # kubectl exec wallabag-v1-flnjd -c wallabag -i -t -- bash -il
+# kubectl exec wallabag-v1-flnjd -c wallabag -i -t -- php app/console wallabag:install
 # kubectl rolling-update xxx-vY -f xxx-controller.yaml
 
 # SSH endpoint:

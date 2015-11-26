@@ -11,4 +11,7 @@ parameters:
     test_database_name: wallabag
     test_database_user: wallabag
     test_database_password: password
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    from_email: wallabag@mais-h.eu
+    wallabag_url: http://save.mais-h.eu
+    warning_message:
+    twofactor_sender: wallabag@mais-h.eu

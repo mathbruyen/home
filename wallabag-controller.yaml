@@ -15,18 +15,22 @@ spec:
     spec:
       containers:
       - name: wallabag
-        image: mathbruyen/wallabag:20151124
+        image: mathbruyen/wallabag:20151126
         resources:
           requests:
             cpu: 100m
             memory: 100Mi
-        command:
-        - php
-        - app/console
-        - server:run
-        - 0.0.0.0:80
         ports:
         - containerPort: 80
+        env:
+        - name: WALLABAG_MAILER_HOST
+          value: smtp.example.com
+        - name: WALLABAG_MAILER_USER
+          value: someuser
+        - name: WALLABAG_MAILER_PASSWORD
+          value: somepassword
+        - name: WALLABAG_SECRET
+          value: supersecret
       - name: wallabagdb
         image: postgres
         env:
