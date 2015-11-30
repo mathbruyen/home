@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: wallabag
-        image: mathbruyen/wallabag:20151126
+        image: mathbruyen/wallabag:20151130
         resources:
           requests:
             cpu: 100m
@@ -24,11 +24,13 @@ spec:
         - containerPort: 80
         env:
         - name: WALLABAG_MAILER_HOST
-          value: smtp.example.com
+          value: smtp.sendgrid.net
+        - name: WALLABAG_MAILER_PORT
+          value: "2525"
         - name: WALLABAG_MAILER_USER
-          value: someuser
+          value: !sendgrid_user!
         - name: WALLABAG_MAILER_PASSWORD
-          value: somepassword
+          value: !sendgrid_password!
         - name: WALLABAG_SECRET
           value: supersecret
       - name: wallabagdb
