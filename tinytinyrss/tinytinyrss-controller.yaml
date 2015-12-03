@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: tinytinyrss-v1
+  labels:
+    app: tinytinyrss
+    version: v1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tinytinyrss
+        version: v1
+    spec:
+      containers:
+      - name: tinytinyrss
+        image: clue/ttrss
+        env:
+        - name: DB_ENV_PASS
+          value: password
+        - name: DB_ENV_USER
+          value: tinytiny
+        - name: DB_HOST
+          value: tinytinyrssdb
+        - name: DB_PORT
+          value: "5432"
+        - name: SELF_URL_PATH
+          value: https://feeds.mais-h.eu
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 80
