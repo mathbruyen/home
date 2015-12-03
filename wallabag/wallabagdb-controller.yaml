@@ -1,38 +1,17 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: wallabag-v1
+  name: wallabagdb
   labels:
-    app: wallabag
-    version: v1
+    app: wallabagdb
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: wallabag
-        version: v1
+        app: wallabagdb
     spec:
       containers:
-      - name: wallabag
-        image: mathbruyen/wallabag:20151130
-        resources:
-          requests:
-            cpu: 100m
-            memory: 100Mi
-        ports:
-        - containerPort: 80
-        env:
-        - name: WALLABAG_MAILER_HOST
-          value: smtp.sendgrid.net
-        - name: WALLABAG_MAILER_PORT
-          value: "2525"
-        - name: WALLABAG_MAILER_USER
-          value: !sendgrid_user!
-        - name: WALLABAG_MAILER_PASSWORD
-          value: !sendgrid_password!
-        - name: WALLABAG_SECRET
-          value: supersecret
       - name: wallabagdb
         image: postgres
         env:
@@ -49,6 +28,8 @@ spec:
         volumeMounts:
           - name: db-disk
             mountPath: /var/lib/postgresql/data
+        ports:
+        - containerPort: 5432
       volumes:
       - name: db-disk
         gcePersistentDisk:

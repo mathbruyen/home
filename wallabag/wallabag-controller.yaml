@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: wallabag-v1
+  labels:
+    app: wallabag
+    version: v1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: wallabag
+        version: v1
+    spec:
+      containers:
+      - name: wallabag
+        image: mathbruyen/wallabag:20151203
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 80
+        env:
+        - name: WALLABAG_MAILER_HOST
+          value: smtp.sendgrid.net
+        - name: WALLABAG_MAILER_PORT
+          value: "2525"
+        - name: WALLABAG_MAILER_USER
+          value: !sendgrid_user!
+        - name: WALLABAG_MAILER_PASSWORD
+          value: !sendgrid_password!
+        - name: WALLABAG_SECRET
+          value: supersecret
