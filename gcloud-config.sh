@@ -18,8 +18,9 @@
 # gcloud container clusters get-credentials ownservices --zone europe-west1-b
 
 # Lets encrypt
+# sudo ln -s /home/mathbruyen/certs /etc/letsencrypt
 # git clone https://github.com/letsencrypt/letsencrypt
-# cd letsencrypt
+# rm -R ~/.local/share/letsencrypt/
 # ./letsencrypt-auto certonly --manual
 
 PROJECT="ownservices-1121"

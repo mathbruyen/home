@@ -4,5 +4,5 @@ metadata:
   name: webcertificates-v1
 type: Opaque
 data:
-  feeds.mais-h.eu.cert: !sudo openssl enc -A -base64 -in /etc/letsencrypt/live/feeds.mais-h.eu/cert.pem!
   feeds.mais-h.eu.key: !sudo openssl enc -A -base64 -in /etc/letsencrypt/live/feeds.mais-h.eu/privkey.pem!
+  feeds.mais-h.eu.cert: !sudo openssl enc -A -base64 -in /etc/letsencrypt/live/feeds.mais-h.eu/fullchain.pem!
