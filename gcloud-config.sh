@@ -17,6 +17,11 @@
 # gcloud auth login
 # gcloud container clusters get-credentials ownservices --zone europe-west1-b
 
+# Lets encrypt
+# git clone https://github.com/letsencrypt/letsencrypt
+# cd letsencrypt
+# ./letsencrypt-auto certonly --manual
+
 PROJECT="ownservices-1121"
 ZONE="europe-west1-b"
 CLUSTER="ownservices"

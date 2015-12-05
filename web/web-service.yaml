@@ -8,5 +8,8 @@ spec:
   type: LoadBalancer
   ports:
   - port: 80
+    name: http
+  - port: 443
+    name: https
   selector:
     app: web
