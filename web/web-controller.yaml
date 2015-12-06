@@ -1,21 +1,21 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: web-v11
+  name: web-v12
   labels:
     app: web
-    version: v11
+    version: v12
 spec:
   replicas: 2
   template:
     metadata:
       labels:
         app: web
-        version: v11
+        version: v12
     spec:
       containers:
       - name: nginx
-        image: mathbruyen/web:0.0.13
+        image: nginx:1.9.6
         resources:
           requests:
             cpu: 100m
@@ -24,6 +24,9 @@ spec:
         - containerPort: 80
         - containerPort: 443
         volumeMounts:
+        - name: config
+          mountPath: /etc/nginx/conf.d
+          readOnly: true
         - name: certificates
           mountPath: /etc/certificates
           readOnly: true
@@ -31,3 +34,6 @@ spec:
       - name: certificates
         secret:
           secretName: webcertificates-v3
+      - name: config
+        secret:
+          secretName: webconfiguration-v1
