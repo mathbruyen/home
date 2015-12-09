@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: smtp-v1
+  labels:
+    app: smtp
+    version: v1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: smtp
+        version: v1
+    spec:
+      containers:
+      - name: postfix
+        image: mathbruyen/postfix:0.0.1
+        env:
+        - name: MAILER_HOST
+          value: smtp.sendgrid.net
+        - name: MAILER_PORT
+          value: "2525"
+        - name: MAILER_USER
+          value: !sendgrid username!
+        - name: MAILER_PASSWORD
+          value: !sendgrid password, base64!
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 25
