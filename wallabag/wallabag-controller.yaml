@@ -1,21 +1,21 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: wallabag-v2
+  name: wallabag-v4
   labels:
     app: wallabag
-    version: v2
+    version: v4
 spec:
   replicas: 1
   template:
     metadata:
       labels:
         app: wallabag
-        version: v2
+        version: v4
     spec:
       containers:
       - name: wallabag
-        image: mathbruyen/wallabag:20151203
+        image: mathbruyen/wallabag:20151210-2
         resources:
           requests:
             cpu: 100m
@@ -23,13 +23,15 @@ spec:
         ports:
         - containerPort: 80
         env:
-        - name: WALLABAG_MAILER_HOST
-          value: smtp
-        - name: WALLABAG_MAILER_PORT
-          value: "25"
-        - name: WALLABAG_MAILER_USER
-          value:
-        - name: WALLABAG_MAILER_PASSWORD
-          value:
         - name: WALLABAG_SECRET
           value: supersecret
+        volumeMounts:
+          - name: assets-disk
+            mountPath: /wallabag/data/assets
+        ports:
+        - containerPort: 5432
+      volumes:
+      - name: assets-disk
+        gcePersistentDisk:
+          pdName: wallabagassets-disk
+          fsType: ext4

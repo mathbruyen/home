@@ -6,12 +6,15 @@ parameters:
     database_user: wallabag
     database_password: password
     test_database_driver: pdo_pgsql
-    test_database_host: localhost
+    test_database_host: wallabagdb
     test_database_port: 5432
     test_database_name: wallabag
     test_database_user: wallabag
     test_database_password: password
-    from_email: wallabag@mais-h.eu
-    wallabag_url: http://save.mais-h.eu
-    warning_message:
+    mailer_transport: smtp
+    mailer_host: smtp
     twofactor_sender: wallabag@mais-h.eu
+    warning_message:
+    download_pictures: true
+    wallabag_url: http://save.mais-h.eu
+    from_email: wallabag@mais-h.eu

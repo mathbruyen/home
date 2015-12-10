@@ -3,7 +3,7 @@ FROM debian:jessie
 RUN \
   apt-get -y update && \
   apt-get -y upgrade && \
-  apt-get -y install curl php5-cli git php5-tidy php5-pgsql php5-curl && \
+  apt-get -y install curl php5-cli git php5-tidy php5-pgsql php5-curl php5-gd && \
   curl https://getcomposer.org/download/1.0.0-alpha11/composer.phar -o /usr/bin/composer && \
   chmod +x /usr/bin/composer && \
   git clone https://github.com/mathbruyen/wallabag.git -b temp-port-and-env /wallabag && \
