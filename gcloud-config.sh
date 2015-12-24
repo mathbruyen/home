@@ -33,3 +33,4 @@ kubectl create -f sshd-service.yaml
 gcloud compute disks create --size 10GB tinytinyrssdb-disk --zone europe-west1-b
 gcloud compute disks create --size 10GB wallabagdb-disk --zone europe-west1-b
 gcloud compute disks create --size 10GB wallabagassets-disk --zone europe-west1-b
+gcloud compute disks create --size 10GB dckeldb-disk --zone europe-west1-b

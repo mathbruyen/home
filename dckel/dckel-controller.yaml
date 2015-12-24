@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: dckel-v3
+  labels:
+    app: dckel
+    version: v3
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dckel
+        version: v3
+    spec:
+      containers:
+      - name: dckel
+        image: mathbruyen/dckel:20151224
+        env:
+        - name: DB
+          value: postgres://dckel:password@dckeldb:5432/dckel
+        - name: SECRET
+          value: dqwiudhjdsghquydbqwdjkxashdiuy
+        - name: PORT
+          value: "80"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 80

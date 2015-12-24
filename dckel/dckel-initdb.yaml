@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dckel-initdb
+  labels:
+    app: dckel-initdb
+spec:
+  containers:
+  - name: dckel
+    image: mathbruyen/dckel:20151223
+    command:
+    - node
+    - --harmony_rest_parameters
+    - --harmony_destructuring
+    - dev-db.js
+    env:
+    - name: DB
+      value: postgres://dckel:password@dckeldb:5432/dckel
+    - name: SECRET
+      value: dqwiudhjdsghquydbqwdjkxashdiuy
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
