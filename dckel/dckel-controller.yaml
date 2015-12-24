@@ -20,7 +20,7 @@ spec:
         - name: DB
           value: postgres://dckel:password@dckeldb:5432/dckel
         - name: SECRET
-          value: dqwiudhjdsghquydbqwdjkxashdiuy
+          value: !secret!
         - name: PORT
           value: "80"
         resources:
