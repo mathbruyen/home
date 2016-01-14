@@ -7,12 +7,12 @@ metadata:
 spec:
   containers:
   - name: dckel
-    image: mathbruyen/dckel:20151223
+    image: mathbruyen/dckel:20160114
     command:
     - node
     - --harmony_rest_parameters
     - --harmony_destructuring
-    - dev-db.js
+    - lib/init-schema.js
     env:
     - name: DB
       value: postgres://dckel:password@dckeldb:5432/dckel
