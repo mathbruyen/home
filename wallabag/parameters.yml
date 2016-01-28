@@ -15,6 +15,5 @@ parameters:
     mailer_host: smtp
     twofactor_sender: wallabag@mais-h.eu
     warning_message:
-    download_pictures: true
     wallabag_url: http://save.mais-h.eu
     from_email: wallabag@mais-h.eu
