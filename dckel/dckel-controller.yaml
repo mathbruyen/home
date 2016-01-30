@@ -1,17 +1,17 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: dckel-v5
+  name: dckel-v6
   labels:
     app: dckel
-    version: v5
+    version: v6
 spec:
   replicas: 1
   template:
     metadata:
       labels:
         app: dckel
-        version: v5
+        version: v6
     spec:
       containers:
       - name: dckel
@@ -29,3 +29,9 @@ spec:
             memory: 100Mi
         ports:
         - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 60
+          timeoutSeconds: 5
