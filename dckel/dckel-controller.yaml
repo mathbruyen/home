@@ -1,21 +1,21 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: dckel-v6
+  name: dckel-v7
   labels:
     app: dckel
-    version: v6
+    version: v7
 spec:
   replicas: 1
   template:
     metadata:
       labels:
         app: dckel
-        version: v6
+        version: v7
     spec:
       containers:
       - name: dckel
-        image: mathbruyen/dckel:20160114
+        image: mathbruyen/dckel:20160212
         env:
         - name: DB
           value: postgres://dckel:password@dckeldb:5432/dckel

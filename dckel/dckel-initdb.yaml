@@ -7,17 +7,14 @@ metadata:
 spec:
   containers:
   - name: dckel
-    image: mathbruyen/dckel:20160114
+    image: mathbruyen/dckel:20160212
     command:
-    - node
-    - --harmony_rest_parameters
-    - --harmony_destructuring
-    - lib/init-schema.js
+    - npm
+    - run
+    - sync-db
     env:
     - name: DB
       value: postgres://dckel:password@dckeldb:5432/dckel
-    - name: SECRET
-      value: !secret! 
     resources:
       requests:
         cpu: 100m
