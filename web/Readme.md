@@ -3,11 +3,24 @@
 ## [Let's encrypt](https://letsencrypt.org/)
 
 ```
-git clone https://github.com/letsencrypt/letsencrypt
+# In initial terminal
+docker run -it --rm --name letsencrypt -v ~/certs:/etc/letsencrypt -v ~/letsencrypt-backup:/var/lib/letsencrypt quay.io/letsencrypt/letsencrypt:latest certonly --manual -d feeds.mais-h.eu # get ACME challenge
 
-sudo ln -s /home/mathbruyen/certs /etc/letsencrypt
-rm -R ~/.local/share/letsencrypt/
-./letsencrypt-auto certonly --manual
+# In another terminal
+vim conf/ttrss.conf # set ACME challenge
+vim generate-web-config.sh # increment version
+./geneate-web-config.sh
+kubectl create -f web-configuration.yaml
+vim web-controller.yaml # increment version and use new web config version
+kubectl rolling-update web-v17 -f web-controller.yaml
+
+# Validate in initial terminal ENTER
+
+vim generate-certificates-secret.sh # increment version
+./generate-certificates-secret.sh
+kubectl create -f web-certificates.yaml
+vim web-controller.yaml # increment version and use new web certificates version
+kubectl rolling-update web-v18 -f web-controller.yaml
 ```
 
 ## Kubernetes usage
