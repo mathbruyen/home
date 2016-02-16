@@ -1,17 +1,17 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: wallabag-v6
+  name: wallabag-v7
   labels:
     app: wallabag
-    version: v6
+    version: v7
 spec:
   replicas: 1
   template:
     metadata:
       labels:
         app: wallabag
-        version: v6
+        version: v7
     spec:
       containers:
       - name: wallabag
@@ -25,5 +25,9 @@ spec:
         env:
         - name: WALLABAG_SECRET
           value: supersecret
-        ports:
-        - containerPort: 5432
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 60
+          timeoutSeconds: 5

@@ -4,7 +4,7 @@ cat > web-configuration.yaml << EOF
 apiVersion: v1
 kind: Secret
 metadata:
-  name: webconfiguration-v6
+  name: webconfiguration-v7
 type: Opaque
 data:
   ttrss.conf: $(openssl enc -A -base64 -in conf/ttrss.conf)

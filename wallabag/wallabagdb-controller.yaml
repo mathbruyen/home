@@ -30,6 +30,15 @@ spec:
             mountPath: /var/lib/postgresql/data
         ports:
         - containerPort: 5432
+        livenessProbe:
+          exec:
+            command:
+            - psql
+            - --dbname=wallabag
+            - --username=wallabag
+            - --command=\dt
+          initialDelaySeconds: 60
+          timeoutSeconds: 3
       volumes:
       - name: db-disk
         gcePersistentDisk:

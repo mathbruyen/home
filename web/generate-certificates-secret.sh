@@ -4,7 +4,7 @@ cat > web-certificates.yaml << EOF
 apiVersion: v1
 kind: Secret
 metadata:
-  name: webcertificates-v5
+  name: webcertificates-v6
 type: Opaque
 data:
   feeds.mais-h.eu.key: $(sudo openssl enc -A -base64 -in /etc/letsencrypt/live/feeds.mais-h.eu/privkey.pem)
