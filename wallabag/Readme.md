@@ -3,9 +3,11 @@
 ## Local usage
 
 ```
-docker build -t mathbruyen/wallabag:20160128 .
+docker build .
 docker run -e POSTGRES_PASSWORD=password -e POSTGRES_USER=wallabag --name wallabagdb -d postgres
-docker run -e WALLABAG_SECRET=supersecret --link wallabagdb mathbruyen/wallabag:20160128
+docker run --rm --link wallabagdb 7d15c2f62ede sh -c 'composer run-script build-parameters && php bin/console doctrine:schema:create'
+docker run -e WALLABAG_SECRET=supersecret --link wallabagdb 7d15c2f62ede
+
 docker push mathbruyen/wallabag:20160128
 ```
 

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: wallabag-initdb
+  labels:
+    app: wallabag-initdb
+spec:
+  containers:
+  - name: wallabag
+    image: mathbruyen/wallabag:20160128-2
+    command:
+    - bash
+    - -c
+    - "composer run-script build-parameters && php bin/console doctrine:schema:update --force"
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
