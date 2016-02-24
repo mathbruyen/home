@@ -7,11 +7,20 @@ metadata:
 spec:
   containers:
   - name: wallabag
-    image: mathbruyen/wallabag:20160128-2
+    image: mathbruyen/wallabag:20160224
     command:
     - bash
     - -c
-    - "composer run-script build-parameters && php bin/console doctrine:schema:update --force"
+    - "composer run-script build-parameters -- --no-interaction && php bin/console doctrine:schema:update --force"
+    env:
+    - name: SYMFONY__WALLABAG_DB_HOST
+      value: !wallabag db service ip!
+    - name: SYMFONY__WALLABAG_DB_NAME
+      value: wallabag
+    - name: SYMFONY__WALLABAG_DB_USER
+      value: wallabag
+    - name: SYMFONY__WALLABAG_DB_PASSWORD
+      value: password
     resources:
       requests:
         cpu: 100m

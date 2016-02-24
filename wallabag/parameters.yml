@@ -1,16 +1,10 @@
 parameters:
     database_driver: pdo_pgsql
-    database_host: wallabagdb
+    database_host: %WALLABAG_DB_HOST%
     database_port: 5432
-    database_name: wallabag
-    database_user: wallabag
-    database_password: password
-    test_database_driver: pdo_pgsql
-    test_database_host: wallabagdb
-    test_database_port: 5432
-    test_database_name: wallabag
-    test_database_user: wallabag
-    test_database_password: password
+    database_name: %WALLABAG_DB_NAME%
+    database_user: %WALLABAG_DB_USER%
+    database_password: %WALLABAG_DB_PASSWORD%
     mailer_transport: smtp
     mailer_host: smtp
     twofactor_sender: wallabag@mais-h.eu

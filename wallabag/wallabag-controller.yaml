@@ -1,21 +1,21 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: wallabag-v7
+  name: wallabag-v8
   labels:
     app: wallabag
-    version: v7
+    version: v8
 spec:
   replicas: 1
   template:
     metadata:
       labels:
         app: wallabag
-        version: v7
+        version: v8
     spec:
       containers:
       - name: wallabag
-        image: mathbruyen/wallabag:20160128-2
+        image: mathbruyen/wallabag:20160224
         resources:
           requests:
             cpu: 100m
@@ -23,8 +23,14 @@ spec:
         ports:
         - containerPort: 80
         env:
-        - name: WALLABAG_SECRET
-          value: supersecret
+        - name: SYMFONY__WALLABAG_DB_HOST
+          value: !wallabag db service ip!
+        - name: SYMFONY__WALLABAG_DB_NAME
+          value: wallabag
+        - name: SYMFONY__WALLABAG_DB_USER
+          value: wallabag
+        - name: SYMFONY__WALLABAG_DB_PASSWORD
+          value: password
         livenessProbe:
           httpGet:
             path: /
