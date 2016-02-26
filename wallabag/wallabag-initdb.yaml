@@ -7,11 +7,11 @@ metadata:
 spec:
   containers:
   - name: wallabag
-    image: mathbruyen/wallabag:20160224
+    image: mathbruyen/wallabag:20160226
     command:
     - bash
     - -c
-    - "composer run-script build-parameters -- --no-interaction && php bin/console doctrine:schema:update --force"
+    - "SYMFONY_ENV=prod composer run-script post-cmd -- --no-interaction && php bin/console doctrine:schema:update --force"
     env:
     - name: SYMFONY__WALLABAG_DB_HOST
       value: !wallabag db service ip!

@@ -6,7 +6,8 @@ parameters:
     database_user: %WALLABAG_DB_USER%
     database_password: %WALLABAG_DB_PASSWORD%
     mailer_transport: smtp
-    mailer_host: smtp
+    mailer_host: %WALLABAG_SMTP_HOST%
+    secret: %WALLABAG_SECRET%
     twofactor_sender: wallabag@mais-h.eu
     warning_message:
     wallabag_url: https://save.mais-h.eu

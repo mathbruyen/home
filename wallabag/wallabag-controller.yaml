@@ -1,21 +1,21 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: wallabag-v8
+  name: wallabag-v9
   labels:
     app: wallabag
-    version: v8
+    version: v9
 spec:
   replicas: 1
   template:
     metadata:
       labels:
         app: wallabag
-        version: v8
+        version: v9
     spec:
       containers:
       - name: wallabag
-        image: mathbruyen/wallabag:20160224
+        image: mathbruyen/wallabag:20160226
         resources:
           requests:
             cpu: 100m
@@ -31,6 +31,10 @@ spec:
           value: wallabag
         - name: SYMFONY__WALLABAG_DB_PASSWORD
           value: password
+        - name: SYMFONY__WALLABAG_SMTP_HOST
+          value: smtp.default.svc.cluster.local
+        - name: SYMFONY__WALLABAG_SECRET
+          value: !session secret! 
         livenessProbe:
           httpGet:
             path: /

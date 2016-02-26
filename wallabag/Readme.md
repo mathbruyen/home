@@ -5,8 +5,8 @@
 ```
 docker build .
 docker run -e POSTGRES_PASSWORD=password -e POSTGRES_USER=wallabag --name wallabagdb -d postgres
-docker run --rm --link wallabagdb -e SYMFONY__WALLABAG_DB_HOST=wallabagdb -e SYMFONY__WALLABAG_DB_NAME=wallabag -e SYMFONY__WALLABAG_DB_USER=wallabag -e SYMFONY__WALLABAG_DB_PASSWORD=password 75df03d864b7 sh -c 'composer run-script build-parameters -- --no-interaction && php bin/console doctrine:schema:create'
-docker run -e SYMFONY__WALLABAG_DB_HOST=wallabagdb -e SYMFONY__WALLABAG_DB_NAME=wallabag -e SYMFONY__WALLABAG_DB_USER=wallabag -e SYMFONY__WALLABAG_DB_PASSWORD=password --link wallabagdb -p 8080:80 75df03d864b7
+docker run --rm --link wallabagdb -e SYMFONY__WALLABAG_DB_HOST=wallabagdb -e SYMFONY__WALLABAG_DB_NAME=wallabag -e SYMFONY__WALLABAG_DB_USER=wallabag -e SYMFONY__WALLABAG_DB_PASSWORD=password -e SYMFONY__WALLABAG_SECRET=supersecret -e SYMFONY__WALLABAG_SMTP_HOST=none 75df03d864b7 sh -c 'composer run-script build-parameters -- --no-interaction && php bin/console doctrine:schema:create'
+docker run -e SYMFONY__WALLABAG_DB_HOST=wallabagdb -e SYMFONY__WALLABAG_DB_NAME=wallabag -e SYMFONY__WALLABAG_DB_USER=wallabag -e SYMFONY__WALLABAG_DB_PASSWORD=password -e SYMFONY__WALLABAG_SECRET=supersecret -e SYMFONY__WALLABAG_SMTP_HOST=none --link wallabagdb -p 8080:80 -it 75df03d864b7
 
 docker push mathbruyen/wallabag:20160128
 ```

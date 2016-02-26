@@ -20,7 +20,8 @@ RUN composer install --no-scripts
 WORKDIR /wallabag
 
 ADD parameters.yml /wallabag/app/config/parameters.yml
+ADD nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
 
-CMD composer run-script build-parameters -- --no-interaction && php bin/console server:run 0.0.0.0:80 --env=prod
+CMD SYMFONY_ENV=prod composer run-script post-cmd -- --no-interaction && chown -R nobody /wallabag/var && php-fpm7 && nginx -g "daemon off;"

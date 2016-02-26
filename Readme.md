@@ -12,6 +12,12 @@
 gcloud container clusters create ownservices --zone europe-west1-b
 ```
 
+## Generate secrets and passwords
+
+```
+openssl rand -hex 64
+```
+
 ## Debug
 
 ```
