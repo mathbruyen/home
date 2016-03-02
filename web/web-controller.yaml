@@ -1,24 +1,24 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: web-v19
+  name: web-v21
   labels:
     app: web
-    version: v19
+    version: v21
 spec:
   replicas: 2
   template:
     metadata:
       labels:
         app: web
-        version: v19
+        version: v21
     spec:
       containers:
       - name: nginx
-        image: nginx:1.9.10
+        image: nginx:1.9.11
         resources:
           requests:
-            cpu: 100m
+            cpu: 50m
             memory: 100Mi
         ports:
         - containerPort: 80
@@ -33,7 +33,7 @@ spec:
       volumes:
       - name: certificates
         secret:
-          secretName: webcertificates-v6
+          secretName: webcertificates-v7
       - name: config
         secret:
-          secretName: webconfiguration-v7
+          secretName: webconfiguration-v8

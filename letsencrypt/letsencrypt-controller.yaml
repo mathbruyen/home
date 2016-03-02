@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: letsencrypt
+  labels:
+    app: letsencrypt
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: letsencrypt
+    spec:
+      containers:
+      - name: letsencrypt
+        image: quay.io/letsencrypt/letsencrypt
+        resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
+        command:
+        - sleep
+        - infinity
+        volumeMounts:
+        - mountPath: /acme
+          name: challenges
+        - mountPath: /etc/letsencrypt
+          name: certificates
+      - name: nginx
+        image: nginx:1.9.11
+        resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
+        command:
+        - sh
+        - -c
+        - "chmod 0755 /usr/share/nginx/html && nginx -g \"daemon off;\""
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: challenges
+      volumes:
+      - name: challenges
+        emptyDir: {}
+      - name: certificates
+        gcePersistentDisk:
+          pdName: letsencrypt-certificates
+          fsType: ext4
