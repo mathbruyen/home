@@ -1,4 +1,4 @@
 wallabag/auth.json
 
-web/web-certificates.yaml
+letsencrypt/web-certificates.yaml
 web/web-configuration.yaml

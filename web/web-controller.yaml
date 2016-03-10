@@ -1,17 +1,17 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: web-v22
+  name: web-v23
   labels:
     app: web
-    version: v22
+    version: v23
 spec:
   replicas: 2
   template:
     metadata:
       labels:
         app: web
-        version: v22
+        version: v23
     spec:
       containers:
       - name: nginx
@@ -33,7 +33,7 @@ spec:
       volumes:
       - name: certificates
         secret:
-          secretName: webcertificates-v7
+          secretName: webcertificates-v8
       - name: config
         secret:
-          secretName: webconfiguration-v9
+          secretName: webconfiguration-v10

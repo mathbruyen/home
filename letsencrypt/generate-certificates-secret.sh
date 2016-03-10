@@ -8,7 +8,7 @@ cat > web-certificates.yaml << EOF
 apiVersion: v1
 kind: Secret
 metadata:
-  name: webcertificates-v7
+  name: webcertificates-v8
 type: Opaque
 data:
   feeds.mais-h.eu.key: $(fetch feeds.mais-h.eu/privkey.pem)
@@ -17,4 +17,6 @@ data:
   save.mais-h.eu.cert: $(fetch save.mais-h.eu/fullchain.pem)
   dckel.mais-h.eu.key: $(fetch dckel.mais-h.eu/privkey.pem)
   dckel.mais-h.eu.cert: $(fetch dckel.mais-h.eu/fullchain.pem)
+  blog.mais-h.eu.key: $(fetch blog.mais-h.eu/privkey.pem)
+  blog.mais-h.eu.cert: $(fetch blog.mais-h.eu/fullchain.pem)
 EOF
