@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: dckeldb
-        image: postgres
+        image: postgres:9.4.6
         env:
         - name: POSTGRES_PASSWORD
           value: password
