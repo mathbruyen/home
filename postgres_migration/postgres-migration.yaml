@@ -1,0 +1,63 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postgres-migration
+  labels:
+    name: postgres-migration
+    version: wallabag-9.4-9.5
+spec:
+  template:
+    metadata:
+      name: postgres-migration
+    spec:
+      containers:
+      - name: old
+        image: postgres:9.4.8
+        env:
+        - name: POSTGRES_PASSWORD
+          value: password
+        - name: POSTGRES_USER
+          value: wallabag
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        volumeMounts:
+        - name: db-disk
+          mountPath: /var/lib/postgresql/data
+        resources:
+          requests:
+            cpu: 50m
+            memory: 100Mi
+      - name: new
+        image: postgres:9.5.3
+        env:
+        - name: POSTGRES_PASSWORD
+          value: password
+        - name: POSTGRES_USER
+          value: wallabag
+        - name: PGDATA
+          value: /var/lib/postgresql/data/9.5
+        - name: PGPORT
+          value: "10000"
+        volumeMounts:
+        - name: db-disk
+          mountPath: /var/lib/postgresql/data
+        resources:
+          requests:
+            cpu: 50m
+            memory: 100Mi
+      - name: dump-load
+        image: postgres:9.5.3
+        command:
+        - sh
+        - -c
+        - "date && echo *:*:*:*:password > ~/.pgpass && chmod 0600 ~/.pgpass && pg_dumpall -h localhost -U wallabag -p 5432 | psql wallabag -h localhost -U wallabag -p 10000 && echo Done"
+        resources:
+          requests:
+            cpu: 50m
+            memory: 100Mi
+      restartPolicy: OnFailure
+      volumes:
+      - name: db-disk
+        gcePersistentDisk:
+          pdName: wallabagdb-disk
+          fsType: ext4

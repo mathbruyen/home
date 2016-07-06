@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postgres-cleanup
+  labels:
+    name: postgres-cleanup
+    version: wallabag-9.4-9.5
+spec:
+  template:
+    metadata:
+      name: postgres-cleanup
+    spec:
+      containers:
+      - name: cleanup
+        image: alpine:3.4
+        command:
+        - rm
+        - -rv
+        - /data/9.5
+        resources:
+          requests:
+            cpu: 50m
+            memory: 100Mi
+        volumeMounts:
+        - name: db-disk
+          mountPath: /data
+      restartPolicy: OnFailure
+      volumes:
+      - name: db-disk
+        gcePersistentDisk:
+          pdName: wallabagdb-disk
+          fsType: ext4
