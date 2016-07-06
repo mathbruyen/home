@@ -4,7 +4,7 @@ metadata:
   name: postgres-migration
   labels:
     name: postgres-migration
-    version: tinytinyrss-9.4-9.5
+    version: dckel-9.4-9.5
 spec:
   template:
     metadata:
@@ -17,7 +17,7 @@ spec:
         - name: POSTGRES_PASSWORD
           value: password
         - name: POSTGRES_USER
-          value: wallabag
+          value: dckel
         - name: PGDATA
           value: /var/lib/postgresql/data/pgdata
         volumeMounts:
@@ -33,7 +33,7 @@ spec:
         - name: POSTGRES_PASSWORD
           value: password
         - name: POSTGRES_USER
-          value: tinytiny
+          value: dckel
         - name: PGDATA
           value: /var/lib/postgresql/data/9.5
         - name: PGPORT
@@ -50,7 +50,7 @@ spec:
         command:
         - sh
         - -c
-        - "date && echo *:*:*:*:password > ~/.pgpass && chmod 0600 ~/.pgpass && pg_dumpall -h localhost -U tinytiny -p 5432 | psql tinytiny -h localhost -U tinytiny -p 10000 && echo Done"
+        - "date && echo *:*:*:*:password > ~/.pgpass && chmod 0600 ~/.pgpass && pg_dumpall -h localhost -U dckel -p 5432 | psql dckel -h localhost -U dckel -p 10000 && echo Done"
         resources:
           requests:
             cpu: 50m
@@ -59,5 +59,5 @@ spec:
       volumes:
       - name: db-disk
         gcePersistentDisk:
-          pdName: tinytinyrssdb-disk
+          pdName: dckeldb-disk
           fsType: ext4
