@@ -15,8 +15,7 @@ kubectl rolling-update web-v18 -f web-controller.yaml
 ./generate-certificates-secret.sh
 kubectl create -f web-certificates.yaml
 
-./generate-web-config.sh
-kubectl create -f web-configuration.yaml
+kubectl create configmap web-config-v1 --from-file=conf
 
 kubectl create -f web-controller.yaml
 kubectl create -f web-service.yaml
