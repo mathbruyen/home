@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: wallabag-v9
+  name: wallabag-v10
   labels:
     app: wallabag
     version: v9
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: wallabag
-        image: mathbruyen/wallabag:20160226
+        image: mathbruyen/wallabag:20160731
         resources:
           requests:
             cpu: 100m
@@ -24,7 +24,7 @@ spec:
         - containerPort: 80
         env:
         - name: SYMFONY__WALLABAG_DB_HOST
-          value: !wallabag db service ip!
+          value: wallabagdb
         - name: SYMFONY__WALLABAG_DB_NAME
           value: wallabag
         - name: SYMFONY__WALLABAG_DB_USER
@@ -32,7 +32,7 @@ spec:
         - name: SYMFONY__WALLABAG_DB_PASSWORD
           value: password
         - name: SYMFONY__WALLABAG_SMTP_HOST
-          value: smtp.default.svc.cluster.local
+          value: smtp
         - name: SYMFONY__WALLABAG_SECRET
           value: !session secret! 
         livenessProbe:

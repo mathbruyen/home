@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postgres-backup
+  labels:
+    name: postgres-backup
+    version: wallabag-20160731
+spec:
+  template:
+    metadata:
+      name: postgres-backup
+    spec:
+      containers:
+      - name: db
+        image: postgres:9.5.3
+        env:
+        - name: POSTGRES_PASSWORD
+          value: password
+        - name: POSTGRES_USER
+          value: wallabag
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        volumeMounts:
+        - name: db-disk
+          mountPath: /backup
+        command:
+        - sh
+        - -c
+        - "date && echo *:*:*:*:password > ~/.pgpass && chmod 0600 ~/.pgpass && pg_dumpall -h wallabagdb -U wallabag -p 5432 > /backup/wallabag-20160731 && ls -al /backup && echo Done"
+        resources:
+          requests:
+            cpu: 50m
+            memory: 100Mi
+      restartPolicy: OnFailure
+      volumes:
+      - name: db-disk
+        gcePersistentDisk:
+          pdName: dbbackup-disk
+          fsType: ext4

@@ -1,27 +1,36 @@
-apiVersion: v1
-kind: Pod
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: wallabag-initdb
   labels:
     app: wallabag-initdb
 spec:
-  containers:
-  - name: wallabag
-    image: mathbruyen/wallabag:20160226
-    command:
-    - bash
-    - -c
-    - "SYMFONY_ENV=prod composer run-script post-cmd -- --no-interaction && php bin/console doctrine:schema:update --force"
-    env:
-    - name: SYMFONY__WALLABAG_DB_HOST
-      value: !wallabag db service ip!
-    - name: SYMFONY__WALLABAG_DB_NAME
-      value: wallabag
-    - name: SYMFONY__WALLABAG_DB_USER
-      value: wallabag
-    - name: SYMFONY__WALLABAG_DB_PASSWORD
-      value: password
-    resources:
-      requests:
-        cpu: 100m
-        memory: 100Mi
+  template:
+    metadata:
+      name: wallabag-initdb
+    spec:
+      containers:
+      - name: wallabag
+        image: mathbruyen/wallabag:20160731
+        command:
+        - sh
+        - -c
+        - "composer run-script post-cmd -- --no-interaction && php bin/console doctrine:schema:update --force"
+        env:
+        - name: SYMFONY__WALLABAG_DB_HOST
+          value: wallabagdb
+        - name: SYMFONY__WALLABAG_DB_NAME
+          value: wallabag
+        - name: SYMFONY__WALLABAG_DB_USER
+          value: wallabag
+        - name: SYMFONY__WALLABAG_DB_PASSWORD
+          value: password
+        - name: SYMFONY__WALLABAG_SMTP_HOST
+          value: smtp
+        - name: SYMFONY__WALLABAG_SECRET
+          value: supersecretsession
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+      restartPolicy: OnFailure
