@@ -1,14 +1,14 @@
 #! /bin/bash
 
 function fetch {
-  kubectl exec letsencrypt-rtki2 -c letsencrypt -- sh -c "sleep 1 && cat /etc/letsencrypt/live/$1" | openssl enc -A -base64
+  kubectl exec letsencrypt-g21fo -c letsencrypt -- sh -c "sleep 1 && cat /etc/letsencrypt/live/$1" | openssl enc -A -base64
 }
 
 cat > web-certificates.yaml << EOF
 apiVersion: v1
 kind: Secret
 metadata:
-  name: webcertificates-v8
+  name: webcertificates-v10
 type: Opaque
 data:
   feeds.mais-h.eu.key: $(fetch feeds.mais-h.eu/privkey.pem)
