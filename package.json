@@ -1,0 +1,19 @@
+{
+  "name": "tcp-ws-proxy",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "client": "node src/client.js",
+    "server": "node src/server.js"
+  },
+  "author": "Mathieu Bruyen <code@mais-h.eu>",
+  "license": "MIT",
+  "dependencies": {
+    "websocket": "^1.0.23"
+  },
+  "devDependencies": {
+    "mocha": "^3.0.2"
+  }
+}
