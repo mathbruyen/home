@@ -17,4 +17,4 @@ TARGET_URL=http://localhost:80 LISTEN_PORT=123 npm run client
 
 Run tests with `npm test`. Test runner is [Mocha](https://mochajs.org/).
 
-Main dependency is [websocket](https://www.npmjs.com/package/websocket) ([docs here](https://github.com/theturtle32/WebSocket-Node/tree/master/docs)).
+Main dependency is [websocket](https://www.npmjs.com/package/websocket) ([docs here](https://github.com/theturtle32/WebSocket-Node/tree/master/docs)). Each connection is assigned a UUID transmitted to the server through websocket protocol negotiation that allows correlating log entries.

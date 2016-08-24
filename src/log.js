@@ -5,6 +5,10 @@ module.exports = {
     console.log(`${new Date()} - ${message}`);
   },
   error : function error(message, exception) {
-    console.error(`${new Date()} - ${message}`, exception);
+    if (exception) {
+      console.error(`${new Date()} - ${message}`, exception);
+    } else {
+      console.error(`${new Date()} - ${message}`);
+    }
   }
 };

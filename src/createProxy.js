@@ -2,41 +2,42 @@
 
 var WebSocketClient = require('websocket').client;
 var net = require('net');
+var uuid = require('node-uuid');
 
 // TODO respect buffers being filled
 
 module.exports = function createProxy(listenPort, targetUrl, log) {
   return new Promise((resolve, reject) => {
     var server = net.createServer(socket => {
-      var address = `${socket.address().address}:${socket.address().port}`;
+      var connectionId = uuid.v1();
       var client = new WebSocketClient();
       var buffers = [];
       var connection;
 
-      log.info(`${address} connected`);
+      log.info(`${socket.remoteAddress}:${socket.remotePort} connected, got id ${connectionId}`);
 
       function sendBuffer(buffer) {
         connection.sendBytes(buffer);
       }
 
       client.on('connectFailed', function (err) {
-        log.error(`error while connecting websocket for ${address}`, err);
+        log.error(`${connectionId} error while connecting websocket`, err);
         socket.end();
       });
 
       client.on('connect', function(c) {
-        log.info(`websocket connection for ${address} open`);
+        log.info(`${connectionId} websocket connection open`);
 
         connection = c;
         buffers.forEach(sendBuffer);
         buffers = undefined;
 
         connection.on('error', function (err) {
-          log.error(`error in websocket connection for ${address}`, err);
+          log.error(`${connectionId} error in websocket connection`, err);
           socket.end();
         });
         connection.on('close', function() {
-          log.info(`websocket connection for ${address} closed`);
+          log.info(`${connectionId} websocket connection closed`);
           socket.end();
         });
         connection.on('message', function(message) {
@@ -56,7 +57,7 @@ module.exports = function createProxy(listenPort, targetUrl, log) {
         }
       });
       socket.on('error', function (err) {
-        log.error(`socket error for ${address}`, err);
+        log.error(`${connectionId} socket error`, err);
         if (connection) {
           connection.close();
         } else {
@@ -64,7 +65,7 @@ module.exports = function createProxy(listenPort, targetUrl, log) {
         }
       });
       socket.on('end', function (err) {
-        log.info(`socket closed for ${address}`);
+        log.info(`${connectionId} socket closed`);
         if (connection) {
           connection.close();
         } else {
@@ -72,7 +73,7 @@ module.exports = function createProxy(listenPort, targetUrl, log) {
         }
       });
 
-      client.connect(targetUrl, 'proxy-protocol');
+      client.connect(targetUrl, `proxy-protocol-${connectionId}`);
     });
     server.listen(listenPort, function (err) {
       if (err) {

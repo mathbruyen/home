@@ -11,6 +11,7 @@
   "author": "Mathieu Bruyen <code@mais-h.eu>",
   "license": "MIT",
   "dependencies": {
+    "node-uuid": "^1.4.7",
     "websocket": "^1.0.23"
   },
   "devDependencies": {
