@@ -9,8 +9,8 @@
 Starting:
 
 ```
-TARGET_URL=tcp://localhost:456 LISTEN_PORT=80 npm run server
-TARGET_URL=http://localhost:80 LISTEN_PORT=123 npm run client
+TARGET_URL=tcp://localhost:80 LISTEN_PORT=8081 npm run server
+TARGET_URL=http://localhost:8081 LISTEN_PORT=8080 npm run client
 ```
 
 ## Dev
