@@ -5,7 +5,8 @@ var net = require('net');
 var Buffer = require('buffer').Buffer;
 var debuglog = require('util').debuglog('wsproxy');
 
-var proxy = require('../src/proxy');
+var createServer = require('../src/createServer');
+var createProxy = require('../src/createProxy');
 
 var log = {
   info : function info(message) {
@@ -16,7 +17,7 @@ var log = {
   }
 };
 
-function createServer(listener) {
+function newTcpServer(listener) {
   return new Promise(function (resolve, reject) {
     const server = net.createServer(listener);
     server.listen(0, err => {
@@ -29,8 +30,8 @@ function createServer(listener) {
   });
 }
 
-function createEchoServer() {
-  return createServer(c => c.pipe(c));
+function newEchoServer() {
+  return newTcpServer(c => c.pipe(c));
 }
 
 function expectEcho(proxyPort) {
@@ -53,8 +54,8 @@ function expectEcho(proxyPort) {
   });
 }
 
-function createPushServer() {
-  return createServer(c => {
+function newPushServer() {
+  return newTcpServer(c => {
     c.write('Hello push!\r\n');
     c.end();
   });
@@ -80,9 +81,9 @@ function expectPush(proxyPort) {
 describe('Proxy', function() {
   describe('server', function() {
     it('should echo back', function() {
-      return createEchoServer().then(echo => {
-        return proxy.createServer(0, `tcp://localhost:${echo.address().port}`, log).then(proxyServer => {
-          return proxy.createProxy(0, 'ws://localhost:' + proxyServer.address().port, log).then(proxyClient => {
+      return newEchoServer().then(echo => {
+        return createServer(0, `tcp://localhost:${echo.address().port}`, log).then(proxyServer => {
+          return createProxy(0, 'ws://localhost:' + proxyServer.address().port, log).then(proxyClient => {
             return expectEcho(proxyClient.address().port).then(() => {
               echo.close();
               proxyServer.close();
@@ -93,9 +94,9 @@ describe('Proxy', function() {
       });
     });
     it('should push data', function() {
-      return createPushServer().then(push => {
-        return proxy.createServer(0, `tcp://localhost:${push.address().port}`, log).then(proxyServer => {
-          return proxy.createProxy(0, 'ws://localhost:' + proxyServer.address().port, log).then(proxyClient => {
+      return newPushServer().then(push => {
+        return createServer(0, `tcp://localhost:${push.address().port}`, log).then(proxyServer => {
+          return createProxy(0, 'ws://localhost:' + proxyServer.address().port, log).then(proxyClient => {
             return expectPush(proxyClient.address().port).then(() => {
               push.close();
               proxyServer.close();
