@@ -83,7 +83,7 @@ describe('Proxy', function() {
     it('should echo back', function() {
       return newEchoServer().then(echo => {
         return createServer(0, `tcp://localhost:${echo.address().port}`, log).then(proxyServer => {
-          return createProxy(0, 'ws://localhost:' + proxyServer.address().port, log).then(proxyClient => {
+          return createProxy(0, 'ws://localhost:' + proxyServer.address().port, {}, log).then(proxyClient => {
             return expectEcho(proxyClient.address().port).then(() => {
               echo.close();
               proxyServer.close();
@@ -96,7 +96,7 @@ describe('Proxy', function() {
     it('should push data', function() {
       return newPushServer().then(push => {
         return createServer(0, `tcp://localhost:${push.address().port}`, log).then(proxyServer => {
-          return createProxy(0, 'ws://localhost:' + proxyServer.address().port, log).then(proxyClient => {
+          return createProxy(0, 'ws://localhost:' + proxyServer.address().port, {}, log).then(proxyClient => {
             return expectPush(proxyClient.address().port).then(() => {
               push.close();
               proxyServer.close();

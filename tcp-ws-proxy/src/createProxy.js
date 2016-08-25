@@ -6,11 +6,13 @@ var uuid = require('node-uuid');
 
 // TODO respect buffers being filled
 
-module.exports = function createProxy(listenPort, targetUrl, log) {
+module.exports = function createProxy(listenPort, targetUrl, tlsOptions, log) {
   return new Promise((resolve, reject) => {
     var server = net.createServer(socket => {
+      var config = { tlsOptions : tlsOptions || {} };
+
       var connectionId = uuid.v1();
-      var client = new WebSocketClient();
+      var client = new WebSocketClient(config);
       var buffers = [];
       var connection;
 
