@@ -4,6 +4,7 @@
 
 * feeds: [TinyTinyRSS](./tinytinyrss)
 * read it later: [Wallabag](./wallabag)
+* backup: [rsync](./files)
 * ssh on port 443: [SSH](./ssh)
 
 ## Init

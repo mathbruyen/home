@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: files
+  labels:
+    app: files
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: files
+    spec:
+      containers:
+      - name: tcp-ws-proxy
+        image: mathbruyen/tcp-ws-proxy:20160825
+        resources:
+          requests:
+            cpu: 10m
+            memory: 50Mi
+        command:
+        - npm
+        - run
+        - server
+        ports:
+        - containerPort: 80
+        env:
+        - name: TARGET_URL
+          value: tcp://localhost:873
+        - name: LISTEN_PORT
+          value: "80"
+      - name: rsync
+        image: mathbruyen/rsync:20160826-2
+        resources:
+          requests:
+            cpu: 20m
+            memory: 50Mi
+        volumeMounts:
+          - name: backup-disk
+            mountPath: /data
+      volumes:
+      - name: backup-disk
+        gcePersistentDisk:
+          pdName: backup-disk
+          fsType: ext4
