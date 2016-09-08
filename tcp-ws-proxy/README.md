@@ -23,10 +23,10 @@ Using npm:
 TARGET_URL=tcp://localhost:80 LISTEN_PORT=8081 npm run server
 
 # Client with direct connection to server
-TARGET_URL=http://localhost:8081 LISTEN_PORT=8080 npm run client
+TARGET_URL=ws://localhost:8081 LISTEN_PORT=8080 npm run client
 
 # Client with client certificate authentication
-TARGET_URL=http://localhost:8081 LISTEN_PORT=8080 CERT_PATH=/certs/client.crt KEY_PATH=/certs/client.key npm run client
+TARGET_URL=wss://localhost:8081 LISTEN_PORT=8080 CERT_PATH=certs/client.crt KEY_PATH=certs/client.open.key npm run client
 ```
 
 Using docker:
@@ -107,4 +107,3 @@ docker run -d --name proxyclient -v $(pwd)/certs:/certs -e CERT_PATH=/certs/clie
 # Testing the chain (displays nginx welcome page)
 curl http://localhost:8080
 ```
-
