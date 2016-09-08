@@ -48,18 +48,6 @@ function newTcpClient(proxyPort, expected, listener) {
   });
 }
 
-function newPushServer() {
-  return newTcpServer(c => {
-    c.write('Hello, push!');
-    c.end();
-  });
-}
-
-function expectPush(proxyPort) {
-  return newTcpClient(proxyPort, 'Hello, push!', client => {
-  });
-}
-
 describe('Proxy', function() {
   describe('server', function() {
     it('should echo back', function() {
@@ -95,12 +83,12 @@ describe('Proxy', function() {
     });
     it('should push large amount of data', function() {
       return newTcpServer(c => {
-        c.write('Hello, large push!'.repeat(10000));
+        c.write('Hello, large push!'.repeat(100000));
         c.end();
       }).then(push => {
         return createServer(0, `tcp://localhost:${push.address().port}`, log).then(proxyServer => {
           return createProxy(0, 'ws://localhost:' + proxyServer.address().port, {}, log).then(proxyClient => {
-            return newTcpClient(proxyClient.address().port, 'Hello, large push!'.repeat(10000), client => {}).then(() => {
+            return newTcpClient(proxyClient.address().port, 'Hello, large push!'.repeat(100000), client => {}).then(() => {
               push.close();
               proxyServer.close();
               proxyClient.close();

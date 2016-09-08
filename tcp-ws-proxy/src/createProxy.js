@@ -3,24 +3,22 @@
 var WebSocketClient = require('websocket').client;
 var net = require('net');
 var uuid = require('node-uuid');
-
-// TODO respect buffers being filled
+const ConnectionStream = require('./connectionToStream');
 
 module.exports = function createProxy(listenPort, targetUrl, tlsOptions, log) {
   return new Promise((resolve, reject) => {
     var server = net.createServer(socket => {
-      var config = { tlsOptions : tlsOptions || {} };
+      socket.pause();
+
+      var config = {
+        tlsOptions : tlsOptions || {}
+      };
 
       var connectionId = uuid.v1();
       var client = new WebSocketClient(config);
-      var buffers = [];
       var connection;
 
       log.info(`${socket.remoteAddress}:${socket.remotePort} connected, got id ${connectionId}`);
-
-      function sendBuffer(buffer) {
-        connection.sendBytes(buffer);
-      }
 
       client.on('connectFailed', function (err) {
         log.error(`${connectionId} error while connecting websocket`, err);
@@ -28,36 +26,23 @@ module.exports = function createProxy(listenPort, targetUrl, tlsOptions, log) {
       });
 
       client.on('connect', function(c) {
+        connection = c;
+        connection.socket.pause();
         log.info(`${connectionId} websocket connection open`);
 
-        connection = c;
-        buffers.forEach(sendBuffer);
-        buffers = undefined;
+        let stream = new ConnectionStream(connection, connectionId, log);
 
-        connection.on('error', function (err) {
+        stream.pipe(socket);
+        socket.pipe(stream);
+
+        socket.resume();
+
+        stream.on('error', err => {
           log.error(`${connectionId} error in websocket connection`, err);
           socket.end();
         });
-        connection.on('close', function() {
-          log.info(`${connectionId} websocket connection closed`);
-          socket.end();
-        });
-        connection.on('message', function(message) {
-          if (message.type === 'utf8') {
-            socket.write(message.utf8Data);
-          } else if (message.type === 'binary') {
-            socket.write(message.binaryData);
-          }
-        });
       });
 
-      socket.on('data', function (buffer) {
-        if (connection) {
-          sendBuffer(buffer);
-        } else {
-          buffers.push(buffer);
-        }
-      });
       socket.on('error', function (err) {
         log.error(`${connectionId} socket error`, err);
         if (connection) {
@@ -67,10 +52,8 @@ module.exports = function createProxy(listenPort, targetUrl, tlsOptions, log) {
         }
       });
       socket.on('end', function (err) {
-        log.info(`${connectionId} socket closed`);
-        if (connection) {
-          connection.close();
-        } else {
+        if (!connection) {
+          log.info(`${connectionId} socket closed`);
           client.abort();
         }
       });

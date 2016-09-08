@@ -4,8 +4,7 @@ var WebSocketServer = require('websocket').server;
 var http = require('http');
 var url = require('url');
 var net = require('net');
-
-// TODO respect buffers being filled
+const ConnectionStream = require('./connectionToStream');
 
 module.exports = function createServer(listenPort, targetUrl, log) {
   var target = url.parse(targetUrl);
@@ -30,51 +29,30 @@ module.exports = function createServer(listenPort, targetUrl, log) {
 
       var connectionId = request.requestedProtocols[0].substring('proxy-protocol-'.length);
       var connection = request.accept(request.requestedProtocols[0], request.origin);
-      var messages = [];
-      var queuing = true;
+      connection.socket.pause();
+      var stream = new ConnectionStream(connection, connectionId, log);
 
       log.info(`${connection.remoteAddress} connected with id ${connectionId}`);
 
-      function sendMessage(message) {
-        if (message.type === 'utf8') {
-          socket.write(message.utf8Data);
-        } else if (message.type === 'binary') {
-          socket.write(message.binaryData);
-        }
-      }
-
       var socket = net.connect({ port : target.port, host : target.hostname }, () => {
         log.info(`${connectionId} upstream connected`);
-        queuing = false;
-        messages.forEach(sendMessage);
-        messages = undefined;
       });
 
-      connection.on('message', message => {
-        if (queuing) {
-          messages.push(message);
-        } else {
-          sendMessage(message);
-        }
-      });
-      socket.on('data', buffer => {
-        connection.sendBytes(buffer);
-      });
-      socket.on('close', () => {
-        log.info(`${connectionId} upstream disconnected`);
-        connection.close();
-      });
+      socket.pipe(stream);
+      stream.pipe(socket);
+
       socket.on('error', err => {
         log.error(`${connectionId} error in upstream`, err);
         connection.close();
       });
-      connection.on('close', (reasonCode, description) => {
-        log.info(`${connectionId} disconnected`);
+      stream.on('error', err => {
+        log.error(`${connectionId} error in websocket`, err);
+        connection.close();
         socket.end();
       });
-      connection.on('error', err => {
-        log.error(`${connectionId} error in websocket connection`, err);
-        socket.end();
+
+      socket.on('close', () => {
+        log.info(`${connectionId} upstream disconnected`);
       });
     });
 
