@@ -27,7 +27,7 @@ spec:
         - mountPath: /etc/letsencrypt
           name: certificates
       - name: nginx
-        image: nginx:1.9.11
+        image: nginx:1.11.4
         resources:
           requests:
             cpu: 10m
