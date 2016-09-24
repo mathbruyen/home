@@ -23,6 +23,9 @@ class ConnectionStream extends Duplex {
     connection.on('error', err => {
       this.emit('error', err);
     });
+    this.on('finish', () => {
+      this._connection.close();
+    })
   }
 
   _write(chunk, encoding, callback) {
