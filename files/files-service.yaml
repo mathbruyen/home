@@ -6,6 +6,9 @@ metadata:
     app: files
 spec:
   ports:
-  - port: 80
+  - name: viewer
+    port: 80
+  - name: rsync
+    port: 81
   selector:
     app: files

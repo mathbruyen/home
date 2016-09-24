@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: tcp-ws-proxy
-        image: mathbruyen/tcp-ws-proxy:20160825
+        image: mathbruyen/tcp-ws-proxy:20160924
         resources:
           requests:
             cpu: 10m
@@ -23,12 +23,12 @@ spec:
         - run
         - server
         ports:
-        - containerPort: 80
+        - containerPort: 81
         env:
         - name: TARGET_URL
           value: tcp://localhost:873
         - name: LISTEN_PORT
-          value: "80"
+          value: "81"
       - name: rsync
         image: mathbruyen/rsync:20160826-2
         resources:
@@ -38,6 +38,18 @@ spec:
         volumeMounts:
           - name: backup-disk
             mountPath: /data
+      - name: viewer
+        image: nginx:1.11.4-alpine
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 10m
+            memory: 50Mi
+        volumeMounts:
+          - name: backup-disk
+            mountPath: /usr/share/nginx/html
+            readOnly: true
       volumes:
       - name: backup-disk
         gcePersistentDisk:

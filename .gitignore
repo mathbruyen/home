@@ -3,7 +3,6 @@ wallabag/auth.json
 blog/_site
 
 letsencrypt/web-certificates.yaml
-web/web-configuration.yaml
 
 files/certs
 

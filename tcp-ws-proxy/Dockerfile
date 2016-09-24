@@ -1,4 +1,4 @@
-FROM node:6.4.0
+FROM node:6.6.0
 
 WORKDIR /proxy
 COPY package.json /proxy/

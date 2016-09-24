@@ -12,7 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "node-uuid": "^1.4.7",
-    "websocket": "git://github.com/mathbruyen/WebSocket-Node.git#8af1d9fd837f33f54999d2ab30180bd7cb56bc88"
+    "websocket": "https://github.com/mathbruyen/WebSocket-Node.git#8af1d9fd837f33f54999d2ab30180bd7cb56bc88"
   },
   "devDependencies": {
     "mocha": "^3.0.2"

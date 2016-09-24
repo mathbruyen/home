@@ -67,6 +67,9 @@ openssl req -new -key client.key -out client.csr
 
 # Sign certificate request
 openssl x509 -req -days 365 -in client.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out client.crt
+
+# Generate certificate to be imported in browsers
+openssl pkcs12 -export -out certificate.pfx -inkey client.open.key -in client.crt -certfile ca.crt
 ```
 
 Nginx configuration for ssl offloader and client certificate checking:
