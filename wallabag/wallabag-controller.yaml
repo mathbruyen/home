@@ -1,21 +1,21 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: wallabag-v10
+  name: wallabag-v11
   labels:
     app: wallabag
-    version: v9
+    version: v11
 spec:
   replicas: 1
   template:
     metadata:
       labels:
         app: wallabag
-        version: v9
+        version: v11
     spec:
       containers:
       - name: wallabag
-        image: mathbruyen/wallabag:20160731
+        image: mathbruyen/wallabag:20160924
         resources:
           requests:
             cpu: 100m
