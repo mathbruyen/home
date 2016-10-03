@@ -14,3 +14,14 @@ Setup:
 docker run --rm -it --name proxyclient -v $(pwd)/certs:/certs -e LISTEN_PORT=873 -e TARGET_URL=wss://files.mais-h.eu -e KEY_PATH=/certs/client.open.key -e CERT_PATH=/certs/client.crt -p 873:873 mathbruyen/tcp-ws-proxy:20160825 client
 docker run --rm -it --link proxyclient -v $(pwd)/../blog:/test --entrypoint rsync mathbruyen/rsync:20160826-2 -rvP /test/ rsync://proxyclient/volume/
 ```
+
+## Kubernetes
+
+```
+gcloud compute disks create --size 100GB backup-disk --zone europe-west1-b
+
+kubectl create configmap files-config-v1 --from-file=conf
+
+kubectl create -f files-controller.yaml
+kubectl create -f files-service.yaml
+```

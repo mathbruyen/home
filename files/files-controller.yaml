@@ -36,8 +36,8 @@ spec:
             cpu: 20m
             memory: 50Mi
         volumeMounts:
-          - name: backup-disk
-            mountPath: /data
+        - name: backup-disk
+          mountPath: /data
       - name: viewer
         image: nginx:1.11.4-alpine
         ports:
@@ -47,11 +47,17 @@ spec:
             cpu: 10m
             memory: 50Mi
         volumeMounts:
-          - name: backup-disk
-            mountPath: /usr/share/nginx/html
-            readOnly: true
+        - name: backup-disk
+          mountPath: /usr/share/nginx/html
+          readOnly: true
+        - name: viewer-config
+          mountPath: /etc/nginx/conf.d
+          readOnly: true
       volumes:
       - name: backup-disk
         gcePersistentDisk:
           pdName: backup-disk
           fsType: ext4
+      - name: viewer-config
+        configMap:
+          name: files-config-v1
