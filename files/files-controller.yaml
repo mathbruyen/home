@@ -30,7 +30,7 @@ spec:
         - name: LISTEN_PORT
           value: "81"
       - name: rsync
-        image: mathbruyen/rsync:20160826-2
+        image: mathbruyen/rsync:20161007-2
         resources:
           requests:
             cpu: 20m
@@ -48,7 +48,7 @@ spec:
             memory: 50Mi
         volumeMounts:
         - name: backup-disk
-          mountPath: /usr/share/nginx/html
+          mountPath: /data
           readOnly: true
         - name: viewer-config
           mountPath: /etc/nginx/conf.d
@@ -60,4 +60,4 @@ spec:
           fsType: ext4
       - name: viewer-config
         configMap:
-          name: files-config-v1
+          name: files-config-v2
