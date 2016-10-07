@@ -13,6 +13,10 @@
 gcloud container clusters create ownservices --zone europe-west1-b
 ```
 
+## Local usage
+
+Install kubernetes cli: [link](https://github.com/mathbruyen/computers/blob/master/computers/aspire.md#gcloud-and-kubernetes).
+
 ## Generate secrets and passwords
 
 ```
