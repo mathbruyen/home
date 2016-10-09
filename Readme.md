@@ -15,7 +15,20 @@ gcloud container clusters create ownservices --zone europe-west1-b
 
 ## Local usage
 
-Install kubernetes cli: [link](https://github.com/mathbruyen/computers/blob/master/computers/aspire.md#gcloud-and-kubernetes).
+[Nix installation](https://github.com/mathbruyen/computers/blob/master/computers/nix/).
+
+```bash
+nix-shell
+gcloud init
+gcloud config set container/cluster ownservices
+# get config username
+kubectl config view
+# get master auth password
+gcloud container clusters describe ownservices
+kubectl config set-credentials CONFIG_USERNAME --username=admin --password=PASSWORD
+```
+
+Display dashboard by running `kubectl proxy` and then open [dashboard](http://localhost:8001/api/v1/proxy/namespaces/kube-system/services/kubernetes-dashboard)
 
 ## Generate secrets and passwords
 
