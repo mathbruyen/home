@@ -6,6 +6,6 @@ metadata:
     app: blog
 spec:
   ports:
-  - port: 4000
+  - port: 80
   selector:
     app: blog
