@@ -1,14 +1,18 @@
 #! /bin/bash
 
+POD=$(kubectl get pods --selector app=letsencrypt -o jsonpath='{.items[0].metadata.name}')
+
 function fetch {
-  kubectl exec letsencrypt-g21fo -c letsencrypt -- sh -c "sleep 1 && cat /etc/letsencrypt/live/$1" | openssl enc -A -base64
+  kubectl exec $POD -c letsencrypt -- sh -c "cat /etc/letsencrypt/live/$1" | openssl enc -A -base64
 }
+
+echo Using $POD
 
 cat > web-certificates.yaml << EOF
 apiVersion: v1
 kind: Secret
 metadata:
-  name: webcertificates-v11
+  name: webcertificates-v12
 type: Opaque
 data:
   feeds.mais-h.eu.key: $(fetch feeds.mais-h.eu/privkey.pem)

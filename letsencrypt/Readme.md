@@ -4,11 +4,6 @@ Machine running a webserver for providing ACME challenges, and accepting shell c
 
 ```
 gcloud compute disks create --size 1GB letsencrypt-certificates --zone europe-west1-b
-
-kubectl exec letsencrypt-9anqi -c letsencrypt -i -t -- TERM=xterm certbot certonly --webroot --webroot-path /acme --email letsencrypt@mais-h.eu -d feeds.mais-h.eu
-vim generate-certificates-secret.sh # increment version
-./generate-certificates-secret.sh
-kubectl create -f web-certificates.yaml
 ```
 
 Webservers redirect ACME challenges to this machine:
@@ -22,3 +17,14 @@ server {
   }
 }
 ```
+
+## Certificate update
+
+```
+./refresh-certificates.sh
+vim generate-certificates-secret.sh # increment version
+./generate-certificates-secret.sh
+kubectl create -f web-certificates.yaml
+```
+
+And then update reference in web controller.
