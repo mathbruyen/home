@@ -1,21 +1,21 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: blog-v5
+  name: blog-v7
   labels:
     app: blog
-    version: v5
+    version: v7
 spec:
   replicas: 1
   template:
     metadata:
       labels:
         app: blog
-        version: v5
+        version: v7
     spec:
       containers:
       - name: nginx
-        image: mathbruyen/blog:20161106
+        image: mathbruyen/blog:20161127
         resources:
           requests:
             cpu: 10m
