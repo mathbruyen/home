@@ -12,7 +12,7 @@ cat > web-certificates.yaml << EOF
 apiVersion: v1
 kind: Secret
 metadata:
-  name: webcertificates-v12
+  name: webcertificates-v13
 type: Opaque
 data:
   feeds.mais-h.eu.key: $(fetch feeds.mais-h.eu/privkey.pem)

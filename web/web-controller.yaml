@@ -1,21 +1,21 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: web-v40
+  name: web-v41
   labels:
     app: web
-    version: v40
+    version: v41
 spec:
   replicas: 2
   template:
     metadata:
       labels:
         app: web
-        version: v40
+        version: v41
     spec:
       containers:
       - name: nginx
-        image: nginx:1.11.4
+        image: nginx:1.11.8
         resources:
           requests:
             cpu: 10m
@@ -33,7 +33,7 @@ spec:
       volumes:
       - name: certificates
         secret:
-          secretName: webcertificates-v12
+          secretName: webcertificates-v13
       - name: config
         configMap:
           name: web-config-v9
