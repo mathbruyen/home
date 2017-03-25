@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: mathbruyen/blog:20170225
+        image: mathbruyen/blog:20170325
         resources:
           requests:
             cpu: 10m
