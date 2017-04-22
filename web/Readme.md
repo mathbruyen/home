@@ -5,7 +5,7 @@
 Certificates generated using [Let's encrypt](../letsencrypt). HTTP requests for ACME challenges are forwarded to the single letsencrypt pod.
 
 ```
-vim web-controller.yaml # increment version and use new web certificates version
+# increment version and use new web certificates version in controller
 kubectl rolling-update web-v18 -f web-controller.yaml
 ```
 
