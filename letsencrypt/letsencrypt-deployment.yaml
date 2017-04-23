@@ -1,11 +1,11 @@
-apiVersion: v1
-kind: ReplicationController
+apiVersion: extensions/v1beta1
+kind: Deployment
 metadata:
   name: letsencrypt
-  labels:
-    app: letsencrypt
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
@@ -27,7 +27,7 @@ spec:
         - mountPath: /etc/letsencrypt
           name: certificates
       - name: nginx
-        image: nginx:1.11.4
+        image: nginx:1.12.0-alpine
         resources:
           requests:
             cpu: 10m
@@ -45,6 +45,6 @@ spec:
       - name: challenges
         emptyDir: {}
       - name: certificates
-        gcePersistentDisk:
-          pdName: letsencrypt-certificates
+        awsElasticBlockStore:
+          volumeID: vol-VOLUMEID
           fsType: ext4

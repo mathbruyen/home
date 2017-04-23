@@ -1,17 +1,13 @@
-apiVersion: v1
-kind: ReplicationController
+apiVersion: extensions/v1beta1
+kind: Deployment
 metadata:
-  name: blog-v12
-  labels:
-    app: blog
-    version: v12
+  name: blog
 spec:
   replicas: 1
   template:
     metadata:
       labels:
         app: blog
-        version: v12
     spec:
       containers:
       - name: nginx
