@@ -1,17 +1,8 @@
 # Self service
 
-## Services
-
-* feeds: [TinyTinyRSS](./tinytinyrss)
-* read it later: [Wallabag](./wallabag)
-* backup: [rsync](./files)
-* ssh on port 443: [SSH](./ssh)
-
 ## Init
 
-```
-gcloud container clusters create ownservices --zone europe-west1-b
-```
+[kops tutorial](https://github.com/kubernetes/kops/blob/master/docs/aws.md)
 
 ## Local usage
 
