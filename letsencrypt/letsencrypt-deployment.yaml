@@ -45,6 +45,6 @@ spec:
       - name: challenges
         emptyDir: {}
       - name: certificates
-        awsElasticBlockStore:
-          volumeID: vol-VOLUMEID
+        gcePersistentDisk:
+          pdName: letsencrypt-certificates
           fsType: ext4

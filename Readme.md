@@ -2,7 +2,9 @@
 
 ## Init
 
-[kops tutorial](https://github.com/kubernetes/kops/blob/master/docs/aws.md)
+```
+gcloud container clusters create ownservices --zone europe-west1-b
+```
 
 ## Local usage
 
