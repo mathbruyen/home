@@ -12,7 +12,7 @@ cat > web-certificates.yaml << EOF
 apiVersion: v1
 kind: Secret
 metadata:
-  name: webcertificates-v15
+  name: webcertificates-v16
 type: Opaque
 data:
   feeds.mais-h.eu.key: $(fetch feeds.mais-h.eu/privkey.pem)
@@ -23,6 +23,8 @@ data:
   dckel.mais-h.eu.cert: $(fetch dckel.mais-h.eu/fullchain.pem)
   blog.mais-h.eu.key: $(fetch blog.mais-h.eu/privkey.pem)
   blog.mais-h.eu.cert: $(fetch blog.mais-h.eu/fullchain.pem)
+  gitlab.mais-h.eu.key: $(fetch gitlab.mais-h.eu/privkey.pem)
+  gitlab.mais-h.eu.cert: $(fetch gitlab.mais-h.eu/fullchain.pem)
   files.mais-h.eu.key: $(fetch files.mais-h.eu/privkey.pem)
   files.mais-h.eu.cert: $(fetch files.mais-h.eu/fullchain.pem)
   files.mais-h.eu.ca: $(cat ../files/certs/ca.crt | openssl enc -A -base64)

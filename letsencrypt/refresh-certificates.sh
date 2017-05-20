@@ -12,3 +12,4 @@ refresh save.mais-h.eu
 refresh dckel.mais-h.eu
 refresh files.mais-h.eu
 refresh blog.mais-h.eu
+refresh gitlab.mais-h.eu

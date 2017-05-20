@@ -29,7 +29,7 @@ spec:
       volumes:
       - name: certificates
         secret:
-          secretName: webcertificates-v15
+          secretName: webcertificates-v16
       - name: config
         configMap:
-          name: web-config-v10
+          name: web-config-v11
