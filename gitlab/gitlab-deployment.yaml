@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gitlab
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: gitlab
+    spec:
+      containers:
+      - name: gitlab
+        image: gitlab/gitlab-ce:latest
+        resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
+        ports:
+        - containerPort: 80
+        env:
+        - name: GITLAB_OMNIBUS_CONFIG
+          value: "external_url 'http://gitlab.mais-h.eu/'; gitlab_rails['lfs_enabled'] = true; gitlab_rails['lfs_storage_path'] = \"/var/opt/gitlab-lfs\""
+        volumeMounts:
+        - mountPath: /etc/gitlab
+          name: content
+          subPath: gitlab-config
+        - mountPath: /var/opt/gitlab
+          name: content
+          subPath: gitlab-content
+        - mountPath: /var/opt/gitlab-lfs
+          name: content
+          subPath: lfs-content
+      volumes:
+      - name: content
+        gcePersistentDisk:
+          pdName: git-content
+          fsType: ext4
