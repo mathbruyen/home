@@ -22,7 +22,19 @@ spec:
         - containerPort: 80
         env:
         - name: GITLAB_OMNIBUS_CONFIG
-          value: "external_url 'http://gitlab.mais-h.eu/'; gitlab_rails['smtp_enable'] = true; gitlab_rails['smtp_address'] = \"smtp\"; gitlab_rails['gitlab_email_from'] = 'gitlab@mais-h.eu'; gitlab_rails['lfs_enabled'] = true; gitlab_rails['lfs_storage_path'] = \"/var/opt/gitlab-lfs\""
+          value: |
+            external_url 'https://gitlab.mais-h.eu/';
+            nginx['listen_port'] = 80;
+            nginx['listen_https'] = false;
+            nginx['proxy_set_headers'] = {
+              "X-Forwarded-Proto" => "https",
+              "X-Forwarded-Ssl" => "on"
+            }
+            gitlab_rails['smtp_enable'] = true;
+            gitlab_rails['smtp_address'] = "smtp";
+            gitlab_rails['gitlab_email_from'] = 'gitlab@mais-h.eu';
+            gitlab_rails['lfs_enabled'] = true;
+            gitlab_rails['lfs_storage_path'] = "/var/opt/gitlab-lfs"
         volumeMounts:
         - mountPath: /etc/gitlab
           name: content
