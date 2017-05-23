@@ -1,0 +1,41 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: gitlab-runner-registration
+  labels:
+    name: gitlab-runner-registration
+    version: 1
+spec:
+  template:
+    metadata:
+      name: gitlab-runner-registration
+    spec:
+      containers:
+      - name: gitlab-runner
+        image: gitlab/gitlab-runner:latest
+        args:
+        - register
+        - "--non-interactive"
+        - "--name"
+        - "Kubernetes Runner"
+        - "--url"
+        - "http://gitlab/ci"
+        - "--registration-token"
+        - "%REGISTRATION TOKEN FROM https://gitlab.mais-h.eu/admin/runners %"
+        - "--executor"
+        - kubernetes
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /etc/gitlab-runner
+          name: config
+        - mountPath: /etc/ssl/certs
+          name: cacerts
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - configMap:
+          name: gitlab-runner
+        name: config
+      - hostPath:
+          path: /usr/share/ca-certificates/mozilla
+        name: cacerts

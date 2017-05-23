@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gitlab-runner
+data:
+  config.toml: |
+    concurrent = 4
+
+    [[runners]]
+      name = "Kubernetes Runner"
+      url = "http://gitlab/ci"
+      token = "%TOKEN AVAILABLE IN GITLAB ADMIN VIEW AFTER REGISTRATION%"
+      executor = "kubernetes"
+      [runners.kubernetes]
+        namespace = "default"
+        privileged = true
+        cpu_request = "1m"
+        service_cpu_request = "1m"
+        helper_cpu_request = "1m"
