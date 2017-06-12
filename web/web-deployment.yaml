@@ -32,4 +32,4 @@ spec:
           secretName: webcertificates-v16
       - name: config
         configMap:
-          name: web-config-v13
+          name: web-config-v14

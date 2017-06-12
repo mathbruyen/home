@@ -25,7 +25,4 @@ data:
   blog.mais-h.eu.cert: $(fetch blog.mais-h.eu/fullchain.pem)
   gitlab.mais-h.eu.key: $(fetch gitlab.mais-h.eu/privkey.pem)
   gitlab.mais-h.eu.cert: $(fetch gitlab.mais-h.eu/fullchain.pem)
-  files.mais-h.eu.key: $(fetch files.mais-h.eu/privkey.pem)
-  files.mais-h.eu.cert: $(fetch files.mais-h.eu/fullchain.pem)
-  files.mais-h.eu.ca: $(cat ../files/certs/ca.crt | openssl enc -A -base64)
 EOF
