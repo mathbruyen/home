@@ -3,7 +3,7 @@
 POD=$(kubectl get pods --selector app=letsencrypt -o jsonpath='{.items[0].metadata.name}')
 
 function refresh {
-  kubectl exec $POD -c letsencrypt -t -- sh -c "TERM=xterm certbot certonly --webroot --webroot-path /acme --agree-tos -m letsencrypt@mais-h.eu -d $1"
+  kubectl exec $POD -c letsencrypt -it -- sh -c "TERM=xterm certbot certonly --webroot --webroot-path /acme --agree-tos -m letsencrypt@mais-h.eu -d $1"
 }
 
 echo Using $POD
